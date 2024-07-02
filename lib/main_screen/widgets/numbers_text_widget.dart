@@ -9,7 +9,16 @@ class NumbersTextWidget extends StatelessWidget {
   final List<int> numbers;
 
   String _numbersToString(List<int> numbers) {
-    return '';
+    if (numbers.isEmpty) return 'Тут пока пусто';
+    if (numbers.length == 1) return numbers.first.toString();
+    String result = '';
+    for (int index = 0; index < numbers.length; index++) {
+      result += numbers[index].toString();
+      if (index != numbers.length - 1) {
+        result += ', ';
+      }
+    }
+    return result;
   }
 
   @override

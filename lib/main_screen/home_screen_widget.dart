@@ -26,11 +26,31 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const HomeScreenButtonWidget(),
-              if (numbers.isEmpty) NumbersTextWidget(numbers: numbers),
+              const SizedBox(height: 16),
+              const HistoryTextWidget(title: 'История'),
+              const SizedBox(height: 10),
+              NumbersTextWidget(numbers: numbers),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class HistoryTextWidget extends StatelessWidget {
+  const HistoryTextWidget({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text(
+      'История',
+      style: TextStyle(fontSize: 20),
     );
   }
 }
