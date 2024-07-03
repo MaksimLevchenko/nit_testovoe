@@ -8,7 +8,7 @@ class HomeScreenButtonWidget extends StatelessWidget {
   const HomeScreenButtonWidget({
     super.key,
     required this.countOfElements,
-  });
+  }) : assert(countOfElements > 0);
 
   final int countOfElements;
 
@@ -45,28 +45,36 @@ class BottomSheet extends StatelessWidget {
   });
 
   final int countOfElements;
-  final int heightOfElement = 108;
+  final int elementHeight = 100;
+  final double paddingHeight = 8;
 
-  double getTheRightHeight(
-      {required double screenHeight, required int countOfElements}) {
+  double getRightMaxHeight({required double screenHeight}) {
     final maxHeight = 0.8 * screenHeight;
-    final elementsSize = countOfElements * heightOfElement;
+    final elementsSize =
+        countOfElements * (elementHeight + paddingHeight) - paddingHeight;
     return elementsSize > maxHeight
         ? maxHeight / screenHeight
         : elementsSize / screenHeight;
   }
 
+  double getSingleElementHeight({required double screenHeight}) {
+    return (elementHeight) / screenHeight;
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, screenSize) {
-      final rightHeight = getTheRightHeight(
+      final rightMaxHeight = getRightMaxHeight(
         screenHeight: screenSize.maxHeight,
-        countOfElements: countOfElements,
+      );
+      final singleElementHeight = getSingleElementHeight(
+        screenHeight: screenSize.maxHeight,
       );
       return DraggableScrollableSheet(
         expand: false,
-        maxChildSize: max(rightHeight, 0.3),
-        initialChildSize: max(rightHeight / 2, 0.25),
+        maxChildSize: rightMaxHeight,
+        initialChildSize: max(rightMaxHeight / 2, singleElementHeight),
+        minChildSize: rightMaxHeight / 2 - 0.01,
         shouldCloseOnMinExtent: true,
         builder: (context, scrollController) => ListView.builder(
           controller: scrollController,
@@ -84,8 +92,14 @@ class BottomSheet extends StatelessWidget {
   }
 
   Widget? _bottomSheetElement(BuildContext context, int index) {
+    late final double padding;
+    if (index == countOfElements - 1) {
+      padding = 0.0;
+    } else {
+      padding = paddingHeight;
+    }
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: padding),
       child: GestureDetector(
         onTap: () => _onTap(context, index),
         child: Container(

@@ -20,11 +20,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   final int bottomSheetElementsCount = Random().nextInt(20) + 1;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ListenableProvider<NumbersModel>(
       create: (context) => numbersModel,
