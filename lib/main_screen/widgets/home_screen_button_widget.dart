@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:nit_testovoe/main_screen/models/numbers_model.dart';
 import 'package:provider/provider.dart';
@@ -57,24 +55,17 @@ class HomeScreenButtonSheet extends StatelessWidget {
         : elementsSize / screenHeight;
   }
 
-  double getSingleElementHeight({required double screenHeight}) {
-    return (elementHeight) / screenHeight;
-  }
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, screenSize) {
       final rightMaxHeight = getRightMaxHeight(
         screenHeight: screenSize.maxHeight,
       );
-      final singleElementHeight = getSingleElementHeight(
-        screenHeight: screenSize.maxHeight,
-      );
       return DraggableScrollableSheet(
         expand: false,
         maxChildSize: rightMaxHeight,
-        initialChildSize: max(rightMaxHeight / 2, singleElementHeight),
-        minChildSize: rightMaxHeight / 2 - 0.01,
+        initialChildSize: rightMaxHeight,
+        minChildSize: rightMaxHeight / 2,
         shouldCloseOnMinExtent: true,
         builder: (context, scrollController) => ListView.builder(
           controller: scrollController,
