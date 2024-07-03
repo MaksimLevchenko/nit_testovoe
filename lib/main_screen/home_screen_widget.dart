@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:nit_testovoe/main_screen/models/numbers_model.dart';
 import 'package:nit_testovoe/main_screen/widgets/home_screen_button_widget.dart';
 import 'package:nit_testovoe/main_screen/widgets/numbers_text_widget.dart';
 import 'package:provider/provider.dart';
@@ -13,23 +16,29 @@ class HomeScreenWidget extends StatefulWidget {
 }
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
-  final numbers = <int>[];
+  final numbersModel = NumbersModel();
+  final int bottomSheetElementsCount = Random().nextInt(20) + 1;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Provider<List<int>>(
-      create: (context) => numbers,
+    return ListenableProvider<NumbersModel>(
+      create: (context) => numbersModel,
       child: Scaffold(
         body: SizedBox.expand(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const HomeScreenButtonWidget(),
+              HomeScreenButtonWidget(countOfElements: bottomSheetElementsCount),
               const SizedBox(height: 16),
               const HistoryTextWidget(title: 'История'),
               const SizedBox(height: 10),
-              NumbersTextWidget(numbers: numbers),
+              const NumbersTextWidget(),
             ],
           ),
         ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nit_testovoe/main_screen/models/numbers_model.dart';
+import 'package:provider/provider.dart';
 
 class NumbersTextWidget extends StatelessWidget {
   const NumbersTextWidget({
     super.key,
-    required this.numbers,
   });
-
-  final List<int> numbers;
 
   String _numbersToString(List<int> numbers) {
     if (numbers.isEmpty) return 'Тут пока пусто';
@@ -23,6 +22,10 @@ class NumbersTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(_numbersToString(numbers));
+    final numbers = Provider.of<NumbersModel>(context).numbers;
+    return Text(
+      _numbersToString(numbers),
+      textAlign: TextAlign.center,
+    );
   }
 }
