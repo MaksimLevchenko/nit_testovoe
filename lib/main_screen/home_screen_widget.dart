@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:nit_testovoe/main_screen/models/numbers_model.dart';
 import 'package:nit_testovoe/main_screen/widgets/home_screen_button_widget.dart';
@@ -17,23 +15,22 @@ class HomeScreenWidget extends StatefulWidget {
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   final numbersModel = NumbersModel();
-  final int bottomSheetElementsCount = Random().nextInt(20) + 1;
 
   @override
   Widget build(BuildContext context) {
     return ListenableProvider<NumbersModel>(
       create: (context) => numbersModel,
-      child: Scaffold(
+      child: const Scaffold(
         body: SizedBox.expand(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              HomeScreenButtonWidget(countOfElements: bottomSheetElementsCount),
-              const SizedBox(height: 16),
-              const HistoryTextWidget(title: 'История'),
-              const SizedBox(height: 10),
-              const NumbersTextWidget(),
+              HomeScreenButtonWidget(),
+              SizedBox(height: 16),
+              HistoryTextWidget(title: 'История'),
+              SizedBox(height: 10),
+              NumbersTextWidget(),
             ],
           ),
         ),

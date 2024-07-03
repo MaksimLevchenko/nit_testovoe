@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nit_testovoe/main_screen/models/numbers_model.dart';
 import 'package:provider/provider.dart';
@@ -5,10 +7,7 @@ import 'package:provider/provider.dart';
 class HomeScreenButtonWidget extends StatelessWidget {
   const HomeScreenButtonWidget({
     super.key,
-    required this.countOfElements,
-  }) : assert(countOfElements > 0);
-
-  final int countOfElements;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +18,7 @@ class HomeScreenButtonWidget extends StatelessWidget {
   }
 
   void _showBottomSheet(BuildContext context) {
+    final int countOfElements = Random().nextInt(20) + 1;
     showModalBottomSheet(
       context: context,
       clipBehavior: Clip.antiAlias,
