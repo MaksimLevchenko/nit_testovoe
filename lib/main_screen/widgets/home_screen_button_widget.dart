@@ -30,7 +30,7 @@ class HomeScreenButtonWidget extends StatelessWidget {
         final numbersModel = Provider.of<NumbersModel>(context, listen: false);
         return ListenableProvider.value(
             value: numbersModel,
-            child: BottomSheet(
+            child: HomeScreenButtonSheet(
               countOfElements: countOfElements,
             ));
       },
@@ -38,8 +38,8 @@ class HomeScreenButtonWidget extends StatelessWidget {
   }
 }
 
-class BottomSheet extends StatelessWidget {
-  const BottomSheet({
+class HomeScreenButtonSheet extends StatelessWidget {
+  const HomeScreenButtonSheet({
     super.key,
     required this.countOfElements,
   });
