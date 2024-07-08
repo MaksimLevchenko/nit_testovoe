@@ -1,24 +1,42 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class NumbersModel extends ChangeNotifier {
-  final _numbers = <int>[];
-  List<int> get numbers => _numbers;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  List<int> addNumber(int value) {
-    _numbers.add(value);
-    notifyListeners();
-    return _numbers;
-  }
+part 'numbers_model.freezed.dart';
 
-  int length() {
-    return _numbers.length;
-  }
+@freezed
+class NumbersModel with _$NumbersModel {
+  const NumbersModel._();
+  const factory NumbersModel({
+    @Default([]) List<int> numbers,
+  }) = _NumbersModel;
 
   bool isEmpty() {
-    return length() == 0;
+    return numbers.isEmpty;
   }
 
   bool isNotEmpty() {
-    return length() != 0;
+    return numbers.isNotEmpty;
+  }
+
+  int getLength() {
+    return numbers.length;
   }
 }
+
+class NumbersModelNotifier extends StateNotifier<NumbersModel> {
+  NumbersModelNotifier(super.state);
+
+  void addNumber(int number) {
+    final newNumbers = [...state.numbers, number];
+    log('Old numbers: ${state.numbers}');
+    log('New numbers: $newNumbers');
+    state = state.copyWith(numbers: newNumbers);
+    return;
+  }
+}
+
+final numbersModelProvider =
+    StateNotifierProvider<NumbersModelNotifier, NumbersModel>(
+        (ref) => NumbersModelNotifier(const NumbersModel()));

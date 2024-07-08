@@ -1,8 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nit_testovoe/main_screen/models/numbers_model.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreenButtonWidget extends StatelessWidget {
   const HomeScreenButtonWidget({
@@ -25,18 +24,15 @@ class HomeScreenButtonWidget extends StatelessWidget {
       isScrollControlled: true,
       isDismissible: false,
       builder: (_) {
-        final numbersModel = Provider.of<NumbersModel>(context, listen: false);
-        return ListenableProvider.value(
-            value: numbersModel,
-            child: HomeScreenButtonSheet(
-              countOfElements: countOfElements,
-            ));
+        return HomeScreenButtonSheet(
+          countOfElements: countOfElements,
+        );
       },
     );
   }
 }
 
-class HomeScreenButtonSheet extends StatelessWidget {
+class HomeScreenButtonSheet extends ConsumerWidget {
   const HomeScreenButtonSheet({
     super.key,
     required this.countOfElements,
@@ -56,7 +52,7 @@ class HomeScreenButtonSheet extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return LayoutBuilder(builder: (context, screenSize) {
       final rightMaxHeight = getRightMaxHeight(
         screenHeight: screenSize.maxHeight,
@@ -70,19 +66,20 @@ class HomeScreenButtonSheet extends StatelessWidget {
         builder: (context, scrollController) => ListView.builder(
           controller: scrollController,
           shrinkWrap: true,
-          itemBuilder: _bottomSheetElement,
+          itemBuilder: (context, index) =>
+              _bottomSheetElement(context, ref, index),
           itemCount: countOfElements,
         ),
       );
     });
   }
 
-  void _onTap(BuildContext context, int index) {
-    Provider.of<NumbersModel>(context, listen: false).addNumber(index);
+  void _onTap(BuildContext context, WidgetRef ref, int index) {
+    ref.read(numbersModelProvider.notifier).addNumber(index);
     Navigator.of(context).pop();
   }
 
-  Widget? _bottomSheetElement(BuildContext context, int index) {
+  Widget? _bottomSheetElement(BuildContext context, WidgetRef ref, int index) {
     late final double padding;
     if (index == countOfElements - 1) {
       padding = 0.0;
@@ -92,7 +89,7 @@ class HomeScreenButtonSheet extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: padding),
       child: GestureDetector(
-        onTap: () => _onTap(context, index),
+        onTap: () => _onTap(context, ref, index),
         child: Container(
           height: 100,
           color: Colors.red,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nit_testovoe/main_screen/models/numbers_model.dart';
-import 'package:provider/provider.dart';
 
-class NumbersTextWidget extends StatelessWidget {
+class NumbersTextWidget extends ConsumerWidget {
   const NumbersTextWidget({
     super.key,
   });
@@ -21,10 +21,10 @@ class NumbersTextWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final numbers = Provider.of<NumbersModel>(context).numbers;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final numbers = ref.watch(numbersModelProvider);
     return Text(
-      _numbersToString(numbers),
+      _numbersToString(numbers.numbers),
       textAlign: TextAlign.center,
     );
   }
